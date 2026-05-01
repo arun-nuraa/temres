@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Naidu Hotel</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C8860A;--gold-light:#F5A623;--gold-pale:#FEF3DC;
+  --dark:#1A1208;--dark2:#2D2010;--dark3:#3D2E12;
+  --cream:#FDF8F0;--cream2:#F7F0E3;
+  --red:#C0392B;--green:#27AE60;
+  --text:#1A1208;--muted:#7A6845;--subtle:#BEA882;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;max-width:420px;margin:0 auto;overflow-x:hidden}
+
+/* BANNER */
+.banner{background:linear-gradient(160deg,var(--dark) 0%,var(--dark2) 60%,var(--dark3) 100%);padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.35)}
+.banner-top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 8px}
+.banner-logo{display:flex;align-items:center;gap:10px}
+.logo-circle{width:44px;height:44px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;border:2px solid var(--gold-light);flex-shrink:0}
+.logo-circle svg{width:24px;height:24px;fill:var(--dark)}
+.banner-text h1{font-family:'Playfair Display',serif;font-size:18px;font-weight:800;color:#fff;line-height:1}
+.banner-text p{font-size:10px;color:var(--gold-light);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.menu-btn{width:36px;height:36px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer;padding:4px}
+.menu-btn span{display:block;width:20px;height:2px;background:var(--gold-light);border-radius:2px;transition:.2s}
+.gold-line{height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent);margin:0 16px 12px}
+
+/* SEARCH */
+.search-wrap{padding:0 16px 10px;background:var(--dark2)}
+.search-box{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(200,134,10,.3);border-radius:28px;padding:8px 14px}
+.search-box input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif}
+.search-box input::placeholder{color:rgba(255,255,255,.45)}
+.search-icon,.mic-icon{flex-shrink:0;opacity:.7}
+.search-icon svg,.mic-icon svg{width:16px;height:16px;fill:#fff}
+
+/* FILTERS */
+.filters-wrap{background:var(--dark);padding:10px 0 0;border-bottom:1px solid rgba(200,134,10,.2)}
+.filters-scroll{display:flex;gap:8px;padding:0 16px 10px;overflow-x:auto;scrollbar-width:none}
+.filters-scroll::-webkit-scrollbar{display:none}
+.filter-chip{flex-shrink:0;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid rgba(200,134,10,.35);color:var(--subtle);background:transparent;transition:.2s;white-space:nowrap;font-family:'DM Sans',sans-serif}
+.filter-chip.active{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+
+/* SECTION HEADER */
+.section-head{display:flex;align-items:center;gap:10px;padding:18px 16px 8px}
+.section-head h2{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--dark)}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-light),transparent)}
+
+/* MENU GRID */
+.menu-grid{padding:0 12px 100px;display:flex;flex-direction:column;gap:10px}
+.menu-card{display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:12px;border:1px solid rgba(0,0,0,.06);box-shadow:0 1px 6px rgba(0,0,0,.05);position:relative;overflow:hidden}
+.menu-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold)}
+.item-img{width:72px;height:72px;border-radius:10px;object-fit:cover;flex-shrink:0;background:var(--cream2)}
+.item-img-placeholder{width:72px;height:72px;border-radius:10px;background:linear-gradient(135deg,var(--gold-pale),var(--cream2));display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:28px}
+.item-info{flex:1;min-width:0}
+.item-tags{display:flex;gap:4px;margin-bottom:4px;flex-wrap:wrap}
+.best-tag{background:linear-gradient(90deg,#FF6B35,#FF8C42);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.5px}
+.veg-dot{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.veg-dot-inner{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.nonveg-dot{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nonveg-dot-inner{width:6px;height:6px;border-radius:50%;background:var(--red)}
+.item-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-name-full{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.item-desc{font-size:11px;color:var(--muted);line-height:1.4}
+.item-price{font-size:15px;font-weight:700;color:var(--gold);margin-top:4px}
+.qty-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.qty-btn{display:flex;align-items:center;gap:0;border:1.5px solid var(--gold);border-radius:8px;overflow:hidden}
+.qty-btn button{width:28px;height:28px;border:none;background:transparent;color:var(--gold);font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;font-family:'DM Sans',sans-serif}
+.qty-btn button:hover{background:var(--gold-pale)}
+.qty-btn .qty-num{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--dark);border-left:1px solid rgba(200,134,10,.3);border-right:1px solid rgba(200,134,10,.3)}
+.add-btn{background:var(--gold);color:var(--dark);border:none;border-radius:8px;padding:6px 16px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px;font-family:'DM Sans',sans-serif;transition:.15s}
+.add-btn:hover{background:var(--gold-light)}
+
+/* COMBO CARDS */
+.combo-section{padding:0 12px 12px}
+.combo-card{background:linear-gradient(135deg,var(--dark2),var(--dark3));border-radius:16px;padding:16px;margin-bottom:12px;border:1px solid rgba(200,134,10,.4);position:relative;overflow:hidden}
+.combo-card::after{content:'COMBO';position:absolute;top:12px;right:-8px;background:var(--gold);color:var(--dark);font-size:9px;font-weight:800;padding:3px 14px 3px 10px;letter-spacing:1.5px;clip-path:polygon(8px 0%,100% 0%,100% 100%,8px 100%,0% 50%)}
+.combo-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:6px;padding-right:60px}
+.combo-items{font-size:12px;color:var(--subtle);margin-bottom:10px;line-height:1.6}
+.combo-items span{color:var(--gold-light)}
+.combo-footer{display:flex;align-items:center;justify-content:space-between}
+.combo-price{font-size:18px;font-weight:700;color:var(--gold-light)}
+.combo-price small{font-size:11px;color:var(--muted);font-weight:400;margin-left:4px}
+.combo-add{background:transparent;border:1.5px solid var(--gold);color:var(--gold);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s}
+.combo-add:hover{background:var(--gold);color:var(--dark)}
+
+/* CART BAR */
+.cart-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;padding:12px 16px;background:transparent;pointer-events:none;z-index:200}
+.cart-btn{width:100%;background:linear-gradient(90deg,var(--dark),var(--dark2));color:#fff;border:2px solid var(--gold);border-radius:14px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:'DM Sans',sans-serif;pointer-events:all;box-shadow:0 4px 20px rgba(0,0,0,.3);transition:.2s}
+.cart-btn:hover{border-color:var(--gold-light)}
+.cart-badge{background:var(--gold);color:var(--dark);font-size:12px;font-weight:700;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.cart-mid{font-size:13px;font-weight:600;color:var(--subtle)}
+.cart-mid strong{color:#fff;font-size:15px;display:block}
+.cart-arrow{font-size:18px;color:var(--gold-light)}
+
+/* CART MODAL */
+.cart-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px)}
+.cart-sheet{background:var(--cream);border-radius:20px 20px 0 0;width:100%;max-width:420px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column}
+.cart-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid rgba(0,0,0,.08);background:#fff}
+.cart-header h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--dark)}
+.clear-btn{font-size:12px;color:var(--red);cursor:pointer;font-weight:600;background:none;border:none;font-family:'DM Sans',sans-serif}
+.close-btn{width:32px;height:32px;border-radius:50%;background:var(--cream2);border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.cart-items{flex:1;overflow-y:auto;padding:12px 16px}
+.cart-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.cart-item-name{flex:1;font-size:13px;font-weight:600;color:var(--text)}
+.cart-item-price{font-size:13px;font-weight:700;color:var(--gold);min-width:52px;text-align:right}
+.cart-total-row{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:#fff;border-top:2px solid var(--gold-pale)}
+.cart-total-row span{font-size:14px;color:var(--muted)}
+.cart-total-row strong{font-family:'Playfair Display',serif;font-size:22px;color:var(--dark)}
+
+/* CUSTOMER FORM */
+.cust-form{padding:12px 16px;background:var(--cream2);border-top:1px solid rgba(0,0,0,.06)}
+.cust-form h4{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.cust-form input{width:100%;background:#fff;border:1.5px solid rgba(0,0,0,.12);border-radius:10px;padding:10px 14px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text);margin-bottom:8px;outline:none;transition:.2s}
+.cust-form input:focus{border-color:var(--gold)}
+.show-btn{width:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));color:var(--dark);border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:4px;letter-spacing:.5px}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;right:-100%;width:80%;max-width:300px;height:100%;background:var(--dark);z-index:400;transition:.3s;padding:60px 24px 24px;box-shadow:-4px 0 24px rgba(0,0,0,.4)}
+.sidebar.open{right:0}
+.sidebar-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--subtle);font-size:24px;cursor:pointer}
+.sidebar h3{font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin-bottom:20px}
+.sidebar-link{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);color:var(--subtle);font-size:14px;cursor:pointer}
+.sidebar-link:hover{color:var(--gold-light)}
+.sidebar-phone{color:var(--gold-light);font-size:13px;margin-top:20px}
+.sidebar-phone a{color:inherit;text-decoration:none}
+
+/* OVERLAY */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:350;display:none}
+.overlay.open{display:block}
+
+/* EMPTY CART */
+.empty-cart{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-cart p{font-size:14px;margin-top:8px}
+
+/* SCROLL HINT */
+.scroll-hint{text-align:center;padding:6px;font-size:11px;color:var(--subtle);background:var(--dark)}
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <div class="banner-top">
+    <div class="banner-logo">
+      <div class="logo-circle">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 2c4.4 0 8 3.6 8 8s-3.6 8-8 8-8-3.6-8-8 3.6-8 8-8zm-1 3v5l4.3 2.5-.7 1.2L9 13V7h2z"/></svg>
+      </div>
+      <div class="banner-text">
+        <h1>Naidu Hotel</h1>
+        <p>Pakka Naati Style</p>
+      </div>
+    </div>
+    <div class="menu-btn" onclick="toggleSidebar()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="gold-line"></div>
+  <div class="search-wrap">
+    <div class="search-box">
+      <span class="search-icon"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.5 6.5 0 0 0 16 9.5 6.5 6.5 0 0 0 9.5 3 6.5 6.5 0 0 0 3 9.5 6.5 6.5 0 0 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></span>
+      <input type="text" id="searchInput" placeholder="Search dishes..." oninput="filterMenu()">
+      <span class="mic-icon"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3zm6.5 11A6.5 6.5 0 0 1 12 18.5 6.5 6.5 0 0 1 5.5 12H4A8 8 0 0 0 11 19.9V22h2v-2.1A8 8 0 0 0 20 12h-1.5z"/></svg></span>
+    </div>
+  </div>
+  <div class="filters-wrap">
+    <div class="filters-scroll" id="filterScroll">
+      <button class="filter-chip active" onclick="setFilter('ALL',this)">ALL</button>
+      <button class="filter-chip" onclick="setFilter('BEST',this)">⭐ BEST</button>
+      <button class="filter-chip" onclick="setFilter('COMBO',this)">COMBO</button>
+      <button class="filter-chip" onclick="setFilter('BREAKFAST',this)">BREAKFAST</button>
+      <button class="filter-chip" onclick="setFilter('LUNCH',this)">LUNCH & DINNER</button>
+      <button class="filter-chip" onclick="setFilter('CHICKEN',this)">🍗 Chicken</button>
+      <button class="filter-chip" onclick="setFilter('MUTTON',this)">🐑 Mutton</button>
+      <button class="filter-chip" onclick="setFilter('EGG',this)">🥚 Egg</button>
+    </div>
+  </div>
+</div>
+
+<div id="mainContent">
+  <div class="section-head">
+    <h2 id="sectionTitle">All Items</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="combo-section" id="comboSection">
+    <div class="combo-card">
+      <div class="combo-name">Biryani Feast Combo</div>
+      <div class="combo-items">Mutton Biryani + <span>Mutton Masala</span> + Raita + Papad</div>
+      <div class="combo-footer">
+        <div class="combo-price">₹400 <small>Save ₹40</small></div>
+        <button class="combo-add" onclick="addCombo('Biryani Feast Combo',400)">Add</button>
+      </div>
+    </div>
+    <div class="combo-card">
+      <div class="combo-name">Naati Chicken Special</div>
+      <div class="combo-items">Naati Koli Masala + <span>Ragi Ball ×2</span> + Chicken Pepper Fry</div>
+      <div class="combo-footer">
+        <div class="combo-price">₹360 <small>Save ₹30</small></div>
+        <button class="combo-add" onclick="addCombo('Naati Chicken Special',360)">Add</button>
+      </div>
+    </div>
+    <div class="combo-card">
+      <div class="combo-name">Egg Lover's Platter</div>
+      <div class="combo-items">Double Omelette + <span>Egg Masala</span> + Parota ×2 + Soup</div>
+      <div class="combo-footer">
+        <div class="combo-price">₹180 <small>Save ₹20</small></div>
+        <button class="combo-add" onclick="addCombo("Egg Lover\'s Platter",180)">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-grid" id="menuGrid"></div>
+</div>
+
+<div id="cartBar" style="display:none">
+  <div class="cart-bar">
+    <button class="cart-btn" onclick="openCart()">
+      <div class="cart-badge" id="cartCount">0</div>
+      <div class="cart-mid"><strong id="cartItemSummary">View Cart</strong><span id="cartBarSub">0 items</span></div>
+      <div class="cart-arrow">→</div>
+    </button>
+  </div>
+</div>
+
+<div class="overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+<div class="sidebar" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()">✕</button>
+  <h3>Naidu Hotel</h3>
+  <div class="sidebar-link" onclick="closeSidebar();setFilter('ALL',document.querySelector('.filter-chip'))">🍽 Full Menu</div>
+  <div class="sidebar-link" onclick="closeSidebar();openCart()">🛒 View Cart</div>
+  <div class="sidebar-link">📍 Pakka Naati Style</div>
+  <div class="sidebar-link">⏰ Open: 7 AM – 11 PM</div>
+  <div class="sidebar-phone">
+    📞 <a href="tel:8660497598">86604 97598</a> &nbsp;|&nbsp; <a href="tel:9986555559">99865 5559</a>
+  </div>
+</div>
+
+<div class="cart-modal" id="cartModal" style="display:none" onclick="handleCartOutside(event)">
+  <div class="cart-sheet" id="cartSheet">
+    <div class="cart-header">
+      <h3>Your Order</h3>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="clear-btn" onclick="clearCart()">Clear All</button>
+        <button class="close-btn" onclick="closeCart()">✕</button>
+      </div>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-total-row">
+      <span>Total Amount</span>
+      <strong id="cartTotal">₹0</strong>
+    </div>
+    <div class="cust-form">
+      <h4>Your Details</h4>
+      <input type="text" id="custName" placeholder="Your Name">
+      <input type="tel" id="custPhone" placeholder="Phone Number">
+      <input type="text" id="custTable" placeholder="Table No. (optional)">
+      <button class="show-btn">Show to Waiter 🙌</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const menuData=[
+  {id:1,name:"Ragi Ball",price:20,cat:"LUNCH",tags:["LUNCH"],emoji:"🫓",best:false},
+  {id:2,name:"Chapathi",price:20,cat:"LUNCH",tags:["LUNCH"],emoji:"🫓",best:false},
+  {id:3,name:"Parota",price:20,cat:"LUNCH",tags:["LUNCH"],emoji:"🫓",best:false},
+  {id:4,name:"Rice",price:50,cat:"LUNCH",tags:["LUNCH"],emoji:"🍚",best:false},
+  {id:5,name:"Mutton Biryani",price:220,cat:"MUTTON",tags:["LUNCH","MUTTON"],emoji:"🍛",best:true},
+  {id:6,name:"Chicken Biryani",price:130,cat:"CHICKEN",tags:["LUNCH","CHICKEN"],emoji:"🍛",best:true},
+  {id:7,name:"Egg Biryani",price:100,cat:"EGG",tags:["LUNCH","EGG"],emoji:"🍳",best:false},
+  {id:8,name:"Biryani Rice Full",price:80,cat:"LUNCH",tags:["LUNCH"],emoji:"🍚",best:false},
+  {id:9,name:"Biryani Rice Half",price:60,cat:"LUNCH",tags:["LUNCH"],emoji:"🍚",best:false},
+  {id:10,name:"Plain Soup",price:30,cat:"BREAKFAST",tags:["BREAKFAST"],emoji:"🍲",best:false},
+  {id:11,name:"Leg with Soup",price:110,cat:"BREAKFAST",tags:["BREAKFAST","MUTTON"],emoji:"🍲",best:true},
+  {id:12,name:"Tatte Idly",price:20,cat:"BREAKFAST",tags:["BREAKFAST"],emoji:"🍽",best:false},
+  {id:13,name:"Khali Dosa",price:20,cat:"BREAKFAST",tags:["BREAKFAST"],emoji:"🥞",best:false},
+  {id:14,name:"Chicken Masala",price:120,cat:"CHICKEN",tags:["LUNCH","CHICKEN"],emoji:"🍗",best:true},
+  {id:15,name:"Chicken Fry",price:120,cat:"CHICKEN",tags:["LUNCH","CHICKEN"],emoji:"🍗",best:false},
+  {id:16,name:"Chicken Pepper Fry",price:150,cat:"CHICKEN",tags:["LUNCH","CHICKEN"],emoji:"🌶",best:false},
+  {id:17,name:"Chilly Chicken Naati Style",price:180,cat:"CHICKEN",tags:["LUNCH","CHICKEN"],emoji:"🌶",best:true},
+  {id:18,name:"Chilly Chicken",price:140,cat:"CHICKEN",tags:["LUNCH","CHICKEN"],emoji:"🌶",best:false},
+  {id:19,name:"Chicken Kabab",price:120,cat:"CHICKEN",tags:["LUNCH","CHICKEN"],emoji:"🍢",best:false},
+  {id:20,name:"Chicken Kabab 1Kg",price:380,cat:"CHICKEN",tags:["CHICKEN"],emoji:"🍢",best:false},
+  {id:21,name:"Chicken Kabab ½Kg",price:200,cat:"CHICKEN",tags:["CHICKEN"],emoji:"🍢",best:false},
+  {id:22,name:"Chicken Lollypop",price:160,cat:"CHICKEN",tags:["CHICKEN"],emoji:"🍡",best:true},
+  {id:23,name:"Naati Koli Masala",price:220,cat:"CHICKEN",tags:["LUNCH","CHICKEN"],emoji:"🍗",best:true},
+  {id:24,name:"Naati Koli Fry",price:220,cat:"CHICKEN",tags:["LUNCH","CHICKEN"],emoji:"🍗",best:false},
+  {id:25,name:"Mutton Kurma",price:220,cat:"MUTTON",tags:["LUNCH","MUTTON"],emoji:"🥘",best:false},
+  {id:26,name:"Mutton Masala",price:220,cat:"MUTTON",tags:["LUNCH","MUTTON"],emoji:"🥘",best:true},
+  {id:27,name:"Mutton Fry",price:250,cat:"MUTTON",tags:["LUNCH","MUTTON"],emoji:"🥩",best:false},
+  {id:28,name:"Mutton Pepper Fry",price:250,cat:"MUTTON",tags:["LUNCH","MUTTON"],emoji:"🌶",best:true},
+  {id:29,name:"Mutton Chops",price:250,cat:"MUTTON",tags:["LUNCH","MUTTON"],emoji:"🥩",best:false},
+  {id:30,name:"Egg Boti Fry",price:200,cat:"MUTTON",tags:["LUNCH","MUTTON","EGG"],emoji:"🍳",best:false},
+  {id:31,name:"Mutton Liver Fry/Dry",price:250,cat:"MUTTON",tags:["LUNCH","MUTTON"],emoji:"🥩",best:false},
+  {id:32,name:"Head Mutton Masala",price:180,cat:"MUTTON",tags:["LUNCH","MUTTON"],emoji:"🥘",best:true},
+  {id:33,name:"Head Mutton Fry/Dry",price:180,cat:"MUTTON",tags:["LUNCH","MUTTON"],emoji:"🥩",best:false},
+  {id:34,name:"Boti Masala",price:180,cat:"MUTTON",tags:["LUNCH","MUTTON"],emoji:"🥘",best:false},
+  {id:35,name:"Boti Fry",price:180,cat:"MUTTON",tags:["LUNCH","MUTTON"],emoji:"🥩",best:false},
+  {id:36,name:"Egg Masala",price:80,cat:"EGG",tags:["LUNCH","EGG"],emoji:"🍳",best:false},
+  {id:37,name:"Egg Chilli",price:80,cat:"EGG",tags:["LUNCH","EGG"],emoji:"🌶",best:false},
+  {id:38,name:"Double Omelette",price:40,cat:"EGG",tags:["BREAKFAST","EGG"],emoji:"🥚",best:false},
+  {id:39,name:"Single Omelette",price:20,cat:"EGG",tags:["BREAKFAST","EGG"],emoji:"🥚",best:false},
+  {id:40,name:"Egg Bhurji",price:50,cat:"EGG",tags:["BREAKFAST","EGG"],emoji:"🍳",best:false},
+  {id:41,name:"Boiled Egg",price:15,cat:"EGG",tags:["BREAKFAST","EGG"],emoji:"🥚",best:false},
+  {id:42,name:"Half Boiled Egg",price:20,cat:"EGG",tags:["BREAKFAST","EGG"],emoji:"🥚",best:false},
+];
+
+let cart={};
+let currentFilter="ALL";
+let searchQuery="";
+
+function getFilteredItems(){
+  let items=menuData;
+  if(searchQuery.trim()){
+    const q=searchQuery.toLowerCase();
+    items=items.filter(i=>i.name.toLowerCase().includes(q));
+    return items;
+  }
+  if(currentFilter==="ALL")return items;
+  if(currentFilter==="BEST")return items.filter(i=>i.best);
+  if(currentFilter==="COMBO")return[];
+  return items.filter(i=>i.tags.includes(currentFilter));
+}
+
+function renderMenu(){
+  const grid=document.getElementById("menuGrid");
+  const filtered=getFilteredItems();
+  const comboSec=document.getElementById("comboSection");
+  comboSec.style.display=(currentFilter==="ALL"||currentFilter==="COMBO")?"block":"none";
+  if(currentFilter==="COMBO"){grid.innerHTML="";return;}
+  if(filtered.length===0){
+    grid.innerHTML='<div style="text-align:center;padding:40px 20px;color:#7A6845;font-size:14px;">No items found</div>';
+    return;
+  }
+  grid.innerHTML=filtered.map(item=>{
+    const qty=cart[item.id]?cart[item.id].qty:0;
+    const isNonVeg=item.cat==="CHICKEN"||item.cat==="MUTTON";
+    const isEgg=item.cat==="EGG";
+    return`<div class="menu-card">
+      <div class="item-img-placeholder">${item.emoji}</div>
+      <div class="item-info">
+        <div class="item-tags">
+          ${item.best?'<span class="best-tag">BESTSELLER</span>':""}
+          ${isNonVeg?'<div class="nonveg-dot"><div class="nonveg-dot-inner"></div></div>':isEgg?'<div class="nonveg-dot"><div class="nonveg-dot-inner"></div></div>':'<div class="veg-dot"><div class="veg-dot-inner"></div></div>'}
+        </div>
+        <div class="item-name-full">${item.name}</div>
+        <div class="item-price">₹${item.price}</div>
+        <div class="qty-row">
+          ${qty>0?`<div class="qty-btn">
+            <button onclick="changeQty(${item.id},-1)">−</button>
+            <div class="qty-num">${qty}</div>
+            <button onclick="changeQty(${item.id},1)">+</button>
+          </div>`:`<button class="add-btn" onclick="changeQty(${item.id},1)">ADD +</button>`}
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function changeQty(id,delta){
+  const item=menuData.find(i=>i.id===id);
+  if(!item)return;
+  if(!cart[id])cart[id]={name:item.name,price:item.price,qty:0};
+  cart[id].qty+=delta;
+  if(cart[id].qty<=0)delete cart[id];
+  renderMenu();
+  updateCartBar();
+}
+
+function addCombo(name,price){
+  if(!cart["combo_"+name])cart["combo_"+name]={name,price,qty:0};
+  cart["combo_"+name].qty+=1;
+  updateCartBar();
+}
+
+function updateCartBar(){
+  const total=Object.values(cart).reduce((s,i)=>s+i.price*i.qty,0);
+  const count=Object.values(cart).reduce((s,i)=>s+i.qty,0);
+  const bar=document.getElementById("cartBar");
+  if(count===0){bar.style.display="none";return;}
+  bar.style.display="block";
+  document.getElementById("cartCount").textContent=count;
+  document.getElementById("cartItemSummary").textContent="₹"+total;
+  document.getElementById("cartBarSub").textContent=count+" item"+(count>1?"s":"")+" added";
+}
+
+function setFilter(f,btn){
+  currentFilter=f;
+  document.querySelectorAll(".filter-chip").forEach(c=>c.classList.remove("active"));
+  btn.classList.add("active");
+  const titles={ALL:"All Items",BEST:"Bestsellers",COMBO:"Combos",BREAKFAST:"Breakfast",LUNCH:"Lunch & Dinner",CHICKEN:"Chicken Items",MUTTON:"Mutton Items",EGG:"Egg Items"};
+  document.getElementById("sectionTitle").textContent=titles[f]||"Menu";
+  renderMenu();
+}
+
+function filterMenu(){
+  searchQuery=document.getElementById("searchInput").value;
+  renderMenu();
+}
+
+function openCart(){
+  renderCartModal();
+  document.getElementById("cartModal").style.display="flex";
+  document.body.style.overflow="hidden";
+}
+function closeCart(){
+  document.getElementById("cartModal").style.display="none";
+  document.body.style.overflow="";
+}
+function handleCartOutside(e){
+  if(e.target===document.getElementById("cartModal"))closeCart();
+}
+function clearCart(){
+  cart={};
+  renderMenu();
+  updateCartBar();
+  closeCart();
+}
+
+function renderCartModal(){
+  const items=document.getElementById("cartItems");
+  const entries=Object.entries(cart);
+  if(entries.length===0){
+    items.innerHTML='<div class="empty-cart"><p style="font-size:40px">🛒</p><p>Your cart is empty</p></div>';
+    document.getElementById("cartTotal").textContent="₹0";
+    return;
+  }
+  let total=0;
+  items.innerHTML=entries.map(([k,v])=>{
+    const sub=v.price*v.qty;
+    total+=sub;
+    const isCombo=k.startsWith("combo_");
+    return`<div class="cart-item">
+      <div class="cart-item-name">${v.name}${isCombo?' <span style="font-size:10px;background:#FEF3DC;color:#C8860A;padding:1px 6px;border-radius:8px;font-weight:600">COMBO</span>':""}</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="qty-btn">
+          <button onclick="cartChangeQty('${k}',-1)">−</button>
+          <div class="qty-num">${v.qty}</div>
+          <button onclick="cartChangeQty('${k}',1)">+</button>
+        </div>
+        <div class="cart-item-price">₹${sub}</div>
+      </div>
+    </div>`;
+  }).join("");
+  document.getElementById("cartTotal").textContent="₹"+total;
+}
+
+function cartChangeQty(k,delta){
+  if(!cart[k])return;
+  cart[k].qty+=delta;
+  if(cart[k].qty<=0)delete cart[k];
+  renderMenu();
+  updateCartBar();
+  renderCartModal();
+}
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.add("open");
+  document.getElementById("sideOverlay").classList.add("open");
+}
+function closeSidebar(){
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("sideOverlay").classList.remove("open");
+}
+
+renderMenu();
+updateCartBar();
+</script>
+</body>
+</html>
